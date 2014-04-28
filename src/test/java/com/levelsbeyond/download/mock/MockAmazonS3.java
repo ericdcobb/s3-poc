@@ -1,10 +1,9 @@
 package com.levelsbeyond.download.mock;
 
+import static org.mockito.Mockito.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
@@ -85,8 +84,6 @@ import com.amazonaws.services.s3.model.UploadPartResult;
 import com.amazonaws.services.s3.model.VersionListing;
 import com.levelsbeyond.download.S3DownloadServiceImplTest;
 
-import static org.mockito.Mockito.*;
-
 /**
  * Created by ericcobb on 4/28/14.
  */
@@ -148,7 +145,8 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public VersionListing listVersions(String s, String s2, String s3, String s4, String s5, Integer integer) throws AmazonClientException, AmazonServiceException {
+	public VersionListing listVersions(String s, String s2, String s3, String s4, String s5, Integer integer)
+			throws AmazonClientException, AmazonServiceException {
 		return null;
 	}
 
@@ -233,7 +231,8 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public void setObjectAcl(String s, String s2, String s3, CannedAccessControlList cannedAccessControlList) throws AmazonClientException, AmazonServiceException {
+	public void setObjectAcl(String s, String s2, String s3, CannedAccessControlList cannedAccessControlList)
+			throws AmazonClientException, AmazonServiceException {
 
 	}
 
@@ -308,7 +307,8 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public PutObjectResult putObject(String s, String s2, InputStream inputStream, ObjectMetadata objectMetadata) throws AmazonClientException, AmazonServiceException {
+	public PutObjectResult putObject(String s, String s2, InputStream inputStream, ObjectMetadata objectMetadata)
+			throws AmazonClientException, AmazonServiceException {
 		return null;
 	}
 
@@ -358,7 +358,8 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public void setBucketLoggingConfiguration(SetBucketLoggingConfigurationRequest setBucketLoggingConfigurationRequest) throws AmazonClientException, AmazonServiceException {
+	public void setBucketLoggingConfiguration(SetBucketLoggingConfigurationRequest setBucketLoggingConfigurationRequest)
+			throws AmazonClientException, AmazonServiceException {
 
 	}
 
@@ -368,7 +369,8 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public void setBucketVersioningConfiguration(SetBucketVersioningConfigurationRequest setBucketVersioningConfigurationRequest) throws AmazonClientException, AmazonServiceException {
+	public void setBucketVersioningConfiguration(SetBucketVersioningConfigurationRequest setBucketVersioningConfigurationRequest)
+			throws AmazonClientException, AmazonServiceException {
 
 	}
 
@@ -453,12 +455,14 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public void setBucketNotificationConfiguration(SetBucketNotificationConfigurationRequest setBucketNotificationConfigurationRequest) throws AmazonClientException, AmazonServiceException {
+	public void setBucketNotificationConfiguration(SetBucketNotificationConfigurationRequest setBucketNotificationConfigurationRequest)
+			throws AmazonClientException, AmazonServiceException {
 
 	}
 
 	@Override
-	public void setBucketNotificationConfiguration(String s, BucketNotificationConfiguration bucketNotificationConfiguration) throws AmazonClientException, AmazonServiceException {
+	public void setBucketNotificationConfiguration(String s, BucketNotificationConfiguration bucketNotificationConfiguration)
+			throws AmazonClientException, AmazonServiceException {
 
 	}
 
@@ -468,17 +472,20 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public BucketWebsiteConfiguration getBucketWebsiteConfiguration(GetBucketWebsiteConfigurationRequest getBucketWebsiteConfigurationRequest) throws AmazonClientException, AmazonServiceException {
+	public BucketWebsiteConfiguration getBucketWebsiteConfiguration(GetBucketWebsiteConfigurationRequest getBucketWebsiteConfigurationRequest)
+			throws AmazonClientException, AmazonServiceException {
 		return null;
 	}
 
 	@Override
-	public void setBucketWebsiteConfiguration(String s, BucketWebsiteConfiguration bucketWebsiteConfiguration) throws AmazonClientException, AmazonServiceException {
+	public void setBucketWebsiteConfiguration(String s, BucketWebsiteConfiguration bucketWebsiteConfiguration)
+			throws AmazonClientException, AmazonServiceException {
 
 	}
 
 	@Override
-	public void setBucketWebsiteConfiguration(SetBucketWebsiteConfigurationRequest setBucketWebsiteConfigurationRequest) throws AmazonClientException, AmazonServiceException {
+	public void setBucketWebsiteConfiguration(SetBucketWebsiteConfigurationRequest setBucketWebsiteConfigurationRequest)
+			throws AmazonClientException, AmazonServiceException {
 
 	}
 
@@ -488,7 +495,8 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public void deleteBucketWebsiteConfiguration(DeleteBucketWebsiteConfigurationRequest deleteBucketWebsiteConfigurationRequest) throws AmazonClientException, AmazonServiceException {
+	public void deleteBucketWebsiteConfiguration(DeleteBucketWebsiteConfigurationRequest deleteBucketWebsiteConfigurationRequest)
+			throws AmazonClientException, AmazonServiceException {
 
 	}
 
@@ -540,7 +548,8 @@ public class MockAmazonS3 implements AmazonS3 {
 				generatePresignedUrlRequest.getExpiration().after(new Date())) {
 			try {
 				return getMockUrl(this.getClass().getResourceAsStream("/akins.txt"));
-			} catch (IOException e) {
+			}
+			catch (IOException e) {
 				throw new AmazonClientException(e.getMessage());
 			}
 		}
@@ -548,7 +557,8 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public InitiateMultipartUploadResult initiateMultipartUpload(InitiateMultipartUploadRequest initiateMultipartUploadRequest) throws AmazonClientException, AmazonServiceException {
+	public InitiateMultipartUploadResult initiateMultipartUpload(InitiateMultipartUploadRequest initiateMultipartUploadRequest)
+			throws AmazonClientException, AmazonServiceException {
 		return null;
 	}
 
@@ -568,12 +578,14 @@ public class MockAmazonS3 implements AmazonS3 {
 	}
 
 	@Override
-	public CompleteMultipartUploadResult completeMultipartUpload(CompleteMultipartUploadRequest completeMultipartUploadRequest) throws AmazonClientException, AmazonServiceException {
+	public CompleteMultipartUploadResult completeMultipartUpload(CompleteMultipartUploadRequest completeMultipartUploadRequest)
+			throws AmazonClientException, AmazonServiceException {
 		return null;
 	}
 
 	@Override
-	public MultipartUploadListing listMultipartUploads(ListMultipartUploadsRequest listMultipartUploadsRequest) throws AmazonClientException, AmazonServiceException {
+	public MultipartUploadListing listMultipartUploads(ListMultipartUploadsRequest listMultipartUploadsRequest)
+			throws AmazonClientException, AmazonServiceException {
 		return null;
 	}
 
@@ -606,7 +618,6 @@ public class MockAmazonS3 implements AmazonS3 {
 	public boolean isRequesterPaysEnabled(String s) throws AmazonServiceException, AmazonClientException {
 		return false;
 	}
-
 
 	public static URL getMockUrl(InputStream inputStream) throws IOException {
 		final URLConnection mockConnection = mock(URLConnection.class);

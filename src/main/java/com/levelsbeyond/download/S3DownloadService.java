@@ -6,5 +6,5 @@ package com.levelsbeyond.download;
  */
 public interface S3DownloadService {
 
-	public void downloadFile(String bucketName, String objectKey, String path );
+	public void downloadFile(String bucketName, String objectKey, String path);
 }
