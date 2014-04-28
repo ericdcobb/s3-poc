@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Date;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
@@ -23,20 +24,9 @@ public class S3DownloadServiceImpl implements S3DownloadService {
 
 	@Override
 	public void downloadFile(String bucketName, String objectKey, String path) {
-		java.util.Date expiration = new java.util.Date();
-		long msec = expiration.getTime();
-		msec += 1000 * 60 * 60; // 1 hour.
-		expiration.setTime(msec);
+		Date expiration = getDate();
 
-		GeneratePresignedUrlRequest generatePresignedUrlRequest;
-
-		generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, objectKey);
-
-		generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-		generatePresignedUrlRequest.setExpiration(expiration);
-
-		URL s = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
-		System.out.println(s.toString());
+		URL s = getUrl(bucketName, objectKey, expiration);
 
 		try {
 			InputStream inputStream = s.openStream();
@@ -61,5 +51,26 @@ public class S3DownloadServiceImpl implements S3DownloadService {
 		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private Date getDate() {
+		Date expiration = new Date();
+		long msec = expiration.getTime();
+		msec += 1000 * 60 * 60; // 1 hour.
+		expiration.setTime(msec);
+		return expiration;
+	}
+
+	private URL getUrl(String bucketName, String objectKey, Date expiration) {
+		GeneratePresignedUrlRequest generatePresignedUrlRequest;
+
+		generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, objectKey);
+
+		generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+		generatePresignedUrlRequest.setExpiration(expiration);
+
+		URL s = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
+		System.out.println(s.toString());
+		return s;
 	}
 }
