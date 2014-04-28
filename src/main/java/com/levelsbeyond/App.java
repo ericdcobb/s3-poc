@@ -13,7 +13,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 
 public class App
 {
@@ -43,7 +42,7 @@ public class App
 			InputStream inputStream = s.openStream();
 			byte[] buf = new byte[1024];
 			OutputStream out = new FileOutputStream(new File("/Users/ericcobb/s3_output/test.mov"));
-			int count = 0;
+			int count;
 			while( (count = inputStream.read(buf)) != -1)
 			{
 				if( Thread.interrupted() )
