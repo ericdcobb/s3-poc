@@ -623,6 +623,7 @@ public class MockAmazonS3 implements AmazonS3 {
 		final URLConnection mockConnection = mock(URLConnection.class);
 		when(mockConnection.getInputStream()).thenReturn(
 				inputStream);
+		when(mockConnection.getContentLength()).thenReturn(54375547);
 
 		final URLStreamHandler handler = new URLStreamHandler() {
 

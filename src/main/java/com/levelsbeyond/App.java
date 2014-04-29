@@ -22,7 +22,21 @@ public class App
 		URLDownloadService urlDownloadService = new URLDownloadServiceImpl();
 		S3DownloadService downloadService = new S3DownloadServiceImpl(s3Client, urlDownloadService);
 
-		downloadService.downloadFile("lb-cloud-test", "NASCAR Hightlight - Homestead.mov", "/Users/ericcobb/s3_output/test.mov");
+		if (args.length == 0) {
+			printUsage();
+			return;
+		}
 
+		if (args[0].equalsIgnoreCase("download")) {
+			if (args.length != 4) {
+				printUsage();
+			}
+			downloadService.downloadFile(args[1], args[2], args[3]);
+		}
+	}
+
+	public static void printUsage() {
+		System.out.println("Usage:");
+		System.out.println("s3transfer [ download ] <bucket name> <object key> <file path>");
 	}
 }
