@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.levelsbeyond.common.URLTransferService;
@@ -18,7 +19,7 @@ public class App
 		Map<String, String> env = System.getenv();
 
 		//Build Dependencies
-		AWSCredentials credentials = new BasicAWSCredentials(env.get("S3_ACCESS_KEY"), env.get("S3_SECRET_KEY"));
+		BasicSessionCredentials credentials = new BasicSessionCredentials(env.get("S3_ACCESS_KEY"), env.get("S3_SECRET_KEY"), env.get("S3_SESSION_TOKEN"));
 		AmazonS3 s3Client = new AmazonS3Client(credentials);
 		URLTransferService urlTransferService = new URLTransferServiceImpl();
 		S3TransferService s3TransferService = new S3TransferServiceImpl(s3Client, urlTransferService);

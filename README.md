@@ -15,6 +15,7 @@ Uses two environment variables for S3 access:
 
 * S3_ACCESS_KEY
 * S3_SECRET_KEY
+* S3_SESSION_TOKEN
 
 To Run
 
