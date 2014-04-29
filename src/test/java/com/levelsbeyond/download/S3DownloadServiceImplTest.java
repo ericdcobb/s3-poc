@@ -21,7 +21,7 @@ public class S3DownloadServiceImplTest extends TestCase {
 	public void testDownload() throws IOException {
 
 		AmazonS3 mockS3 = new MockAmazonS3();
-		S3DownloadService downloadService = new S3DownloadServiceImpl(mockS3);
+		S3DownloadService downloadService = new S3DownloadServiceImpl(mockS3, new URLDownloadServiceImpl());
 		File output = File.createTempFile("output", ".txt");
 		downloadService.downloadFile(bucketName, objectKey, output.getAbsolutePath());
 
