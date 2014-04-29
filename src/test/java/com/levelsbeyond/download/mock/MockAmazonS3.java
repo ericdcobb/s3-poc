@@ -2,8 +2,12 @@ package com.levelsbeyond.download.mock;
 
 import static org.mockito.Mockito.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
@@ -83,6 +87,7 @@ import com.amazonaws.services.s3.model.UploadPartRequest;
 import com.amazonaws.services.s3.model.UploadPartResult;
 import com.amazonaws.services.s3.model.VersionListing;
 import com.levelsbeyond.download.S3DownloadServiceImplTest;
+import com.levelsbeyond.upload.S3UploadServiceImplTest;
 
 /**
  * Created by ericcobb on 4/28/14.
@@ -553,6 +558,17 @@ public class MockAmazonS3 implements AmazonS3 {
 				throw new AmazonClientException(e.getMessage());
 			}
 		}
+		if (generatePresignedUrlRequest.getBucketName().equals(S3DownloadServiceImplTest.bucketName) &&
+				generatePresignedUrlRequest.getKey().equals(S3UploadServiceImplTest.objectKey) &&
+				generatePresignedUrlRequest.getMethod().equals(HttpMethod.PUT) &&
+				generatePresignedUrlRequest.getExpiration().after(new Date())) {
+			try {
+				return getMockUrlForPut();
+			}
+			catch (IOException e) {
+				throw new AmazonClientException(e.getMessage());
+			}
+		}
 		return null;
 	}
 
@@ -624,6 +640,41 @@ public class MockAmazonS3 implements AmazonS3 {
 		when(mockConnection.getInputStream()).thenReturn(
 				inputStream);
 		when(mockConnection.getContentLength()).thenReturn(54375547);
+
+		final URLStreamHandler handler = new URLStreamHandler() {
+
+			@Override
+			protected URLConnection openConnection(final URL arg0)
+					throws IOException {
+				return mockConnection;
+			}
+		};
+		final URL url = new URL("http://foo.bar", "foo.bar", 80, "", handler);
+		return url;
+	}
+
+	public static File output = getFile() ;
+	public static OutputStream outputStream = getOutputStream();
+
+	public static File getFile() {
+		try {
+			return File.createTempFile("test", ".txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static OutputStream getOutputStream() {
+		try {
+			return new FileOutputStream(output);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public static URL getMockUrlForPut() throws IOException {
+		final URLConnection mockConnection = mock(HttpURLConnection.class);
+		when(mockConnection.getOutputStream()).thenReturn(outputStream);
 
 		final URLStreamHandler handler = new URLStreamHandler() {
 

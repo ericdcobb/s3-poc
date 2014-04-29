@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import com.amazonaws.services.s3.AmazonS3;
+import com.levelsbeyond.common.URLTransferServiceImpl;
 import com.levelsbeyond.download.mock.MockAmazonS3;
 import junit.framework.TestCase;
 
@@ -21,8 +22,9 @@ public class S3DownloadServiceImplTest extends TestCase {
 	public void testDownload() throws IOException {
 
 		AmazonS3 mockS3 = new MockAmazonS3();
-		S3DownloadService downloadService = new S3DownloadServiceImpl(mockS3, new URLDownloadServiceImpl());
+		S3TransferService downloadService = new S3TransferServiceImpl(mockS3, new URLTransferServiceImpl());
 		File output = File.createTempFile("output", ".txt");
+
 		downloadService.downloadFile(bucketName, objectKey, output.getAbsolutePath());
 
 		String expectedOutput = new String(readFully(this.getClass().getResourceAsStream("/akins.txt")));

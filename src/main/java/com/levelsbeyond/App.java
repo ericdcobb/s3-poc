@@ -1,14 +1,15 @@
 package com.levelsbeyond;
 
+import java.io.IOException;
 import java.util.Map;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.levelsbeyond.download.S3DownloadService;
-import com.levelsbeyond.download.S3DownloadServiceImpl;
-import com.levelsbeyond.download.URLDownloadService;
-import com.levelsbeyond.download.URLDownloadServiceImpl;
+import com.levelsbeyond.common.URLTransferService;
+import com.levelsbeyond.common.URLTransferServiceImpl;
+import com.levelsbeyond.download.S3TransferService;
+import com.levelsbeyond.download.S3TransferServiceImpl;
 
 public class App
 {
@@ -19,8 +20,8 @@ public class App
 		//Build Dependencies
 		AWSCredentials credentials = new BasicAWSCredentials(env.get("S3_ACCESS_KEY"), env.get("S3_SECRET_KEY"));
 		AmazonS3 s3Client = new AmazonS3Client(credentials);
-		URLDownloadService urlDownloadService = new URLDownloadServiceImpl();
-		S3DownloadService downloadService = new S3DownloadServiceImpl(s3Client, urlDownloadService);
+		URLTransferService urlTransferService = new URLTransferServiceImpl();
+		S3TransferService s3TransferService = new S3TransferServiceImpl(s3Client, urlTransferService);
 
 		if (args.length == 0) {
 			printUsage();
@@ -31,7 +32,16 @@ public class App
 			if (args.length != 4) {
 				printUsage();
 			}
-			downloadService.downloadFile(args[1], args[2], args[3]);
+			try {
+				s3TransferService.downloadFile(args[1], args[2], args[3]);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (args[0].equalsIgnoreCase("upload")) {
+			if (args.length != 4) {
+				printUsage();
+			}
+			s3TransferService.upload(args[1], args[2], args[3]);
 		}
 	}
 
